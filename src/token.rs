@@ -35,6 +35,10 @@ pub enum Token {
     Comma,
     #[token(";")]
     Semicolon,
+    #[token("==")]
+    EqualEqual,
+    #[token("=")]
+    Equal,
     #[regex(r"\n", newline_callback)]
     Newline,
     #[regex(r".", priority=1, callback=unexpected_character_callback)]
@@ -54,7 +58,10 @@ impl Display for Token {
             Star => write!(f, "STAR * null"),
             Comma => write!(f, "COMMA , null"),
             Semicolon => write!(f, "SEMICOLON ; null"),
-            _ => unimplemented!(),
+            EqualEqual => write!(f, "EQUAL_EQUAL == null"),
+            Equal => write!(f, "EQUAL = null"),
+            UnexpectedCharacter => unreachable!(),
+            Newline => unreachable!(),
         }
     }
 }
