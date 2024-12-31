@@ -1,10 +1,10 @@
-mod scanner;
+mod token;
 
 use std::env;
 use std::fs;
 use std::io::{self, Write};
 
-use crate::scanner::lexer::Lexer;
+use logos::Logos;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -26,12 +26,13 @@ fn main() {
             });
 
             if !file_contents.is_empty() {
-                let lexer = Lexer::new(file_contents.as_str());
-                lexer.for_each(|r| println!("{}", r.unwrap().0));
-                println!("EOF  null");
-            } else {
-                println!("EOF  null");
+                let mut lexer = token::Token::lexer(file_contents.as_str());
+
+                while let Some(Ok(token)) = lexer.next() {
+                    println!("{}", token)
+                }
             }
+            println!("EOF  null");
         }
         _ => {
             writeln!(io::stderr(), "Unknown command: {}", command).unwrap();
