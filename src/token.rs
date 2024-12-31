@@ -14,6 +14,18 @@ pub enum Token {
     LeftBraces,
     #[token("}")]
     RightBraces,
+    #[token(".")]
+    Dot,
+    #[token("-")]
+    Minus,
+    #[token("+")]
+    Plus,
+    #[token("*")]
+    Star,
+    #[token(",")]
+    Comma,
+    #[token(";")]
+    Semicolon,
 }
 
 impl Display for Token {
@@ -23,6 +35,12 @@ impl Display for Token {
             RightParens => write!(f, "RIGHT_PAREN ) null"),
             LeftBraces => write!(f, "LEFT_BRACE {{ null"),
             RightBraces => write!(f, "RIGHT_BRACE }} null"),
+            Dot => write!(f, "DOT . null"),
+            Minus => write!(f, "MINUS - null"),
+            Plus => write!(f, "PLUS + null"),
+            Star => write!(f, "STAR * null"),
+            Comma => write!(f, "COMMA , null"),
+            Semicolon => write!(f, "SEMICOLON ; null"),
         }
     }
 }
