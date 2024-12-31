@@ -4,8 +4,6 @@ use std::env;
 use std::fs;
 use std::io::{self, Write};
 
-use logos::Logos;
-
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() < 3 {
@@ -25,14 +23,27 @@ fn main() {
                 String::new()
             });
 
-            if !file_contents.is_empty() {
-                let mut lexer = token::Token::lexer(file_contents.as_str());
+            let mut had_error = false;
 
-                while let Some(Ok(token)) = lexer.next() {
-                    println!("{}", token)
+            if !file_contents.is_empty() {
+                let mut scanner = token::Scanner::new(&file_contents);
+
+                while let Some(maybe_token) = scanner.next() {
+                    match maybe_token {
+                        Ok(token) => println!("{}", token),
+                        Err(reason) => {
+                            had_error = true;
+                            writeln!(io::stderr(), "{}", reason).unwrap();
+                        },
+                    }
+                    
                 }
             }
             println!("EOF  null");
+
+            if had_error {
+                std::process::exit(65);
+            }
         }
         _ => {
             writeln!(io::stderr(), "Unknown command: {}", command).unwrap();
