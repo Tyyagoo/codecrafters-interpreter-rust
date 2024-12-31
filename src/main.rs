@@ -1,6 +1,10 @@
+mod scanner;
+
 use std::env;
 use std::fs;
 use std::io::{self, Write};
+
+use crate::scanner::lexer::Lexer;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -22,7 +26,9 @@ fn main() {
             });
 
             if !file_contents.is_empty() {
-                panic!("Scanner not implemented");
+                let lexer = Lexer::new(file_contents.as_str());
+                lexer.for_each(|r| println!("{}", r.unwrap().0));
+                println!("EOF  null");
             } else {
                 println!("EOF  null");
             }
