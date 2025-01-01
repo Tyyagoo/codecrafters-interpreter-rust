@@ -53,7 +53,7 @@ pub enum Token {
     LessEqual,
     #[token("/")]
     Slash,
-    #[regex(r"//.+\n", newline_callback)]
+    #[regex(r"//.+\n?", newline_callback)]
     Comment,
     #[regex(r"\n", newline_callback)]
     Newline,
@@ -117,7 +117,13 @@ impl<'a> Scanner<'a> {
                     "[line {}] Error: Unexpected character: {}",
                     line, &self.source[span]
                 ),
-                LexingError::Other => "Oh fuck.".to_owned(),
+                LexingError::Other => {
+                    let Span { start, end } = self.inner.span();
+                    format!(
+                        "[line {}] Error: Unexpected error at {}:{}",
+                        self.inner.extras, start, end
+                    )
+                }
             })
         })
     }
