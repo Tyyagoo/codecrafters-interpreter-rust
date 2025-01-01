@@ -39,6 +39,10 @@ pub enum Token {
     EqualEqual,
     #[token("=")]
     Equal,
+    #[token("!")]
+    Bang,
+    #[token("!=")]
+    BangEqual,
     #[regex(r"\n", newline_callback)]
     Newline,
     #[regex(r".", priority=1, callback=unexpected_character_callback)]
@@ -60,6 +64,8 @@ impl Display for Token {
             Semicolon => write!(f, "SEMICOLON ; null"),
             EqualEqual => write!(f, "EQUAL_EQUAL == null"),
             Equal => write!(f, "EQUAL = null"),
+            Bang => write!(f, "BANG ! null"),
+            BangEqual => write!(f, "BANG_EQUAL != null"),
             UnexpectedCharacter => unreachable!(),
             Newline => unreachable!(),
         }
