@@ -43,6 +43,14 @@ pub enum Token {
     Bang,
     #[token("!=")]
     BangEqual,
+    #[token(">")]
+    Greater,
+    #[token("<")]
+    Less,
+    #[token(">=")]
+    GreaterEqual,
+    #[token("<=")]
+    LessEqual,
     #[regex(r"\n", newline_callback)]
     Newline,
     #[regex(r".", priority=1, callback=unexpected_character_callback)]
@@ -66,6 +74,10 @@ impl Display for Token {
             Equal => write!(f, "EQUAL = null"),
             Bang => write!(f, "BANG ! null"),
             BangEqual => write!(f, "BANG_EQUAL != null"),
+            Greater => write!(f, "GREATER > null"),
+            Less => write!(f, "LESS < null"),
+            GreaterEqual => write!(f, "GREATER_EQUAL >= null"),
+            LessEqual => write!(f, "LESS_EQUAL <= null"),
             UnexpectedCharacter => unreachable!(),
             Newline => unreachable!(),
         }
