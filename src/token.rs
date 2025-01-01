@@ -51,6 +51,10 @@ pub enum Token {
     GreaterEqual,
     #[token("<=")]
     LessEqual,
+    #[token("/")]
+    Slash,
+    #[regex(r"//.+\n", newline_callback)]
+    Comment,
     #[regex(r"\n", newline_callback)]
     Newline,
     #[regex(r".", priority=1, callback=unexpected_character_callback)]
@@ -78,8 +82,8 @@ impl Display for Token {
             Less => write!(f, "LESS < null"),
             GreaterEqual => write!(f, "GREATER_EQUAL >= null"),
             LessEqual => write!(f, "LESS_EQUAL <= null"),
-            UnexpectedCharacter => unreachable!(),
-            Newline => unreachable!(),
+            Slash => write!(f, "SLASH / null"),
+            Comment | Newline | UnexpectedCharacter => unreachable!(),
         }
     }
 }
